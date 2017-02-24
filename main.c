@@ -35,6 +35,10 @@ int main(int argc, char *argv[])
     struct timespec start, end;
     double cpu_time1, cpu_time2;
 
+    entry *table[26];
+    int index = 0;
+    char lastAlph;
+
     /* check file opening */
     fp = fopen(DICT_FILE, "r");
     if (fp == NULL) {
@@ -59,6 +63,10 @@ int main(int argc, char *argv[])
         line[i - 1] = '\0';
         i = 0;
         e = append(line, e);
+        if (line[0] != lastAlph) {
+            table[index++]=e;
+            lastAlph = line[0];
+        }
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
@@ -70,7 +78,9 @@ int main(int argc, char *argv[])
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
-    e = pHead;
+    // e = pHead;
+    e = table[input[0]-'a'];
+
 
     assert(findName(input, e) &&
            "Did you implement findName() in " IMPL "?");
