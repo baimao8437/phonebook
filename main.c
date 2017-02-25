@@ -17,7 +17,7 @@
 static double diff_in_second(struct timespec t1, struct timespec t2)
 {
     struct timespec diff;
-    if (t2.tv_nsec-t1.tv_nsec < 0) {
+    if (t2.tv_nsec - t1.tv_nsec < 0) {
         diff.tv_sec  = t2.tv_sec - t1.tv_sec - 1;
         diff.tv_nsec = t2.tv_nsec - t1.tv_nsec + 1000000000;
     } else {
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     double cpu_time1, cpu_time2;
 
     entry *table[26];
-    int index = 0;
+    int pos = 0;
     char lastAlph;
 
     /* check file opening */
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         i = 0;
         e = append(line, e);
         if (line[0] != lastAlph) {
-            table[index++]=e;
+            table[pos++] = e;
             lastAlph = line[0];
         }
     }
@@ -78,8 +78,7 @@ int main(int argc, char *argv[])
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
-    // e = pHead;
-    e = table[input[0]-'a'];
+    e = table[input[0] - 'a'];
 
 
     assert(findName(input, e) &&
